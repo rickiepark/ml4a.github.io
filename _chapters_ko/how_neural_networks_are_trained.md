@@ -1,9 +1,11 @@
 ---
 layout: chapter
-title: "How neural networks are trained"
+title: "신경망의 훈련 방법"
 includes: [mathjax]
 header_image: "/images/headers/topographic_map.jpg"
-header_text: "A <a href=\"http://www.summitpost.org/ruth-creek-topographic-map/771858\">topographic map</a> depicts elevation with contour lines connecting places at equal heights."
+header_text: "A <a href=\"http://www.summitpost.org/ruth-creek-topographic-map/771858\">지형도</a>는 같은 높이의 지형을 연결한 등고선으로 고도를 나타냅니다."
+translator: "Haesun Park"
+translator_link: "https://tensorflow.blog/"
 ---
 <!--
 
