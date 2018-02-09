@@ -25,9 +25,9 @@ todo/more sections?
 
 이 시나리오가 신경망과 관련없는 것 같아보이지만 신경망이 훈련되는 방식에 대한 아주 좋은 비유입니다. 사실 신경망을 훈련시키는 주요한 기법인 [경사 하강법](https://ko.wikipedia.org/wiki/%EA%B2%BD%EC%82%AC_%ED%95%98%EA%B0%95%EB%B2%95)은 앞서 설명한 것과 매우 비슷합니다. 훈련이 신경망의 정확도를 최대화하는 최선의 가중치를 찾는 것임을 기억하세요. 이전 장에서 이 과정을 블랙박스처럼 취급해서 자세히 설명하지 않고 훈련된 신경망이 할수 있는 일에 대해서 살펴 보았습니다. 그러나 이 장 전체를 할애해서 경사 하강법이 작동하는 자세한 방식을 설명하겠습니다. 이 기법이 앞서 설명한 산악가를 닮았다는 것을 알게 될 것입니다.
 
-Neural networks can be used without knowing precisely how training works, just as one can operate a flashlight without knowing how the electronics inside it work. Most modern machine learning libraries have greatly automated the training process. Owing to those things and this topic being more mathematically rigorous, you may be tempted to set it aside and rush to applications of neural networks. But the intrepid reader knows this to be a mistake, because understanding the process gives valuable insights into how neural nets can be applied and reconfigured. Moreover, the ability to train large neural networks eluded us for many years and has only recently become feasible, making it one of the great success stories in the history of AI, as well as one of the most active and interesting research areas.
+손전등 안의 전기 장치의 작동 원리를 몰라도 사용할 수 있는 것처럼 신경망이 어떻게 훈련되는지 정확히 알지 못해도 사용할 수 있습니다. 대부분의 최신 머신러닝 라이브러리는 훈련 과정을 상당히 자동화하고 있습니다. 이런 사실과 이 주제가 아주 수학적이기 때문에 이를 한쪽으로 치워두고 신경망 애플리케이션을 만드는 것으로 직행하고 싶을지도 모릅니다. 하지만 용감한 독자는 이것이 실수라는 것을 압니다. 왜냐하면 이 과정을 이해하면 신경망을 적용하고 재구성하는 방법에 대한 많은 통찰을 얻을 수 있기 때문입니다. 더군다나 대규모 신경망을 훈련시키는 것은 오랫동안 어려운 일이었고 최근에 와서야 가능해졌습니다. 이는 AI 역사에서 놀라운 성공 스토리 중에 하나이며 가장 활발하고 흥미있는 연구 분야 중에 하나가 되었습니다.
 
-The aim of this chapter is to give an intuitive, if not rigorous understanding of how neural networks are solved. Visuals are preferred over equations wherever possible, and external links for further reading and refinement will be offered along the way. We'll get to gradient descent, backpropagation, and all the techniques involved in a few sections, but first, let's understand why training is hard to begin with. 
+이 장의 목적은 신경망의 작동 방법에 대해 수학적이기 보다 직관적인 이해를 주는 것입니다. 가능하면 수식보다는 그림을 사용하고 더 읽을 거리와 세부사항을 위해 외부 링크를 제공할 것입니다. 여기에서는 경사 하강법, 역전파 그리고 몇 개의 섹션에서 관련된 모든 기술을 다루겠습니다. 하지만 먼저 왜 훈련이 어려운지 이해하는 것부터 시작하겠습니다.
 
 # Why training is hard
 
