@@ -29,15 +29,15 @@ todo/more sections?
 
 이 장의 목적은 신경망의 작동 방법에 대해 수학적이기 보다 직관적인 이해를 주는 것입니다. 가능하면 수식보다는 그림을 사용하고 더 읽을 거리와 세부사항을 위해 외부 링크를 제공할 것입니다. 여기에서는 경사 하강법, 역전파 그리고 몇 개의 섹션에서 관련된 모든 기술을 다루겠습니다. 하지만 먼저 왜 훈련이 어려운지 이해하는 것부터 시작하겠습니다.
 
-# Why training is hard
+# 왜 훈련이 어려운 것일까요
 
-## A needle in a hyper-dimensional haystack
+## 고차원 모래사장에 있는 바늘
 
-The weights of a neural network with hidden layers are highly interdependent. To see why, consider the highlighted connection in the first layer of the three layer network below. If we tweak the weight on that connection slightly, it will impact not only the neuron it propagates to directly, but also _all_ of the neurons in the next two layers as well, and thus affect all the outputs. 
+은닉층을 가진 신경망의 가중치는 매우 상호의존적입니다. 왜 그런지 보기 위해 아래 세 개의 층을 가진 네트워크의 첫 번째 층에 있는 붉은 색으로 강조된 연결을 살펴 보겠습니다. 이 연결의 가중치를 조금 변경시키면 직접적으로 연결된 뉴런 뿐만 아니라 다음 두 개의 층에 있는 _모든_ 뉴런에 영향을 미칩니다. 결국 전체 출력에 영향을 미칩니다.
 
-{% include figure_multi.md path1="/images/figures/connection_tweak.png" caption1="Tweaking the weight of one connection in the first layer will affect just one neuron in the next layer, but because of fully-connectedness, all neurons in subsequent layers will be changed." %}
+{% include figure_multi.md path1="/images/figures/connection_tweak.png" caption1="첫 번째 층에 있는 하나의 연결 가중치를 바꾸면 다음 층의 뉴런 하나 뿐만 아니라 완전 연결되어 있기 때문에 이어지는 층의 모든 뉴런이 변경될 것입니다." %}
 
-For this reason, we know we can't obtain the best set of weights by optimizing one at a time; we will have to search the entire space of possible weight combinations simultaneously. How do we do this?
+이런 이유 때문에 한번에 하나씩 최적화하는 식으로는 가중치의 최적값을 얻을 수 없습니다. 즉 동시에 가능한 가중치의 모든 조합을 탐색해야만 합니다. 어떻게 할 수 있을까요?
 
 Let's start with the simplest, most naive approach to picking them: random guesses. We set all the weights in our network to random values, and evaluate its accuracy on our dataset. Repeat this many times, keeping track of the results, and then keep the set of weights that gave us the most accurate results. At first this may seem like a reasonable approach. After all, computers are fast; maybe we can get a decent solution by brute force. For a network with just a few dozen neurons, this would work fine. We can try millions of guesses quickly and should get a decent candidate from them. But in most real-world applications we have a lot more weights than that. Consider our handwriting example from [the previous chapter](/ml4a/neural_networks/). There are around 12,000 weights in it. The best combination of weights among that many is now a needle in a haystack, except that haystack has 12,000 dimensions! 
 
