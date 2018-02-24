@@ -39,9 +39,9 @@ todo/more sections?
 
 이런 이유 때문에 한번에 하나씩 최적화하는 식으로는 가중치의 최적값을 얻을 수 없습니다. 즉 동시에 가능한 가중치의 모든 조합을 탐색해야만 합니다. 어떻게 할 수 있을까요?
 
-Let's start with the simplest, most naive approach to picking them: random guesses. We set all the weights in our network to random values, and evaluate its accuracy on our dataset. Repeat this many times, keeping track of the results, and then keep the set of weights that gave us the most accurate results. At first this may seem like a reasonable approach. After all, computers are fast; maybe we can get a decent solution by brute force. For a network with just a few dozen neurons, this would work fine. We can try millions of guesses quickly and should get a decent candidate from them. But in most real-world applications we have a lot more weights than that. Consider our handwriting example from [the previous chapter](/ml4a/neural_networks/). There are around 12,000 weights in it. The best combination of weights among that many is now a needle in a haystack, except that haystack has 12,000 dimensions! 
+가장 간단한 것부터 시작해보죠. 가장 단순한 방법은 그냥 무작위로 고르는 것입니다. 네트워크에 있는 모든 가중치를 랜덤한 값으로 설정하고 데이터셋에 대해 정확도를 평가합니다. 이를 많이 반복하면서 결과를 추적하여 가장 정확한 결과를 내는 가중치 세트를 기록합니다. 처음에 이 방식이 꽤 괜찮게 보일지 모릅니다. 무엇보다도 컴퓨터가 빨라야 합니다. 그러면 무작위 대입으로 괜찮은 솔루션을 얻을지 모릅니다. 수십개의 뉴런이 있는 네트워크의 경우에 이 방식이 어느정도 작동할 것입니다. 수백만 번 빠르게 무작위로 뽑고 이 중에서 괜찮은 후보를 골라야 합니다. 하지만 대부분의 실제 애플리케이션에서는 이보다 훨씬 많은 가중치를 가지고 있습니다. [이전 장](/ml4a/ko/neural_networks/)에서 보았던 손글씨 숫자 예제를 보면 약 12,000개의 가중치가 있습니다. 가장 좋은 가중치의 조합을 찾는 것은 모래사장이 12,000 차원인 것을 빼면 모래사장에서 바늘을 찾는 격입니다!
 
-You might be thinking that 12,000-dimensional haystack is "only 4,000 times bigger" than the more familiar 3-dimensional haystack, so it ought to take _only_ 4,000 times as much time to stumble upon the best weights. But in reality the proportion is incomprehensibly greater than that, and we'll see why in the next section. 
+12,000 차원인 모래사장이 3차원인 모래사장보다 4,000배 정도만 크다고 생각할 수 있습니다. 그래서 최적의 가중치를 찾는데 걸리는 시간이 _단지_ 4,000 배만 더 들어야 합니다. 하지만 실제로 이 비율은 이상하리만치 커집니다. 그 이유에 대해서 다음 절에서 살펴 보겠습니다.
 
 ## n-dimensional space is a lonely place
 
