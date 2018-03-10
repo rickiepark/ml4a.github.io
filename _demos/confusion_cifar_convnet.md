@@ -1,9 +1,11 @@
 ---
 layout: demo
-title: "MNIST confusion matrix"
+title: "CIFAR confusion matrix"
 script: "/demos/demos/confusion_matrix.js"
 width: 960
-height: 560
-args: "'MNIST', undefined"
+height: 600
+args: "'CIFAR', '/demos/datasets/cifar/cifar10_summary_convnet.json'"
 includes: "'jquery', 'convnetjs', 'dataset', 'convnet'"
 ---
+
+

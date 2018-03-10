@@ -1,26 +1,25 @@
-// augmentation
-
-
 function demo(parent, width, height, datasetName_, summaryFile_, snapshotFile_ , viewTopSamples_, testAll_, numTrain_, numTest_) 
 {
 	// canvas
 	var canvas = parent.canvas;
 	var ctx = canvas.getContext('2d');
-
+	
 	// parameters
 	var datasetName = (datasetName_ === undefined) ? 'MNIST' : datasetName_;
-	var summaryFile = (summaryFile_ === undefined) ? '/demos/datasets/mnist/mnist_summary.json' : summaryFile_;
+	var summaryFile = (summaryFile_ === undefined) ? '/demos/datasets/mnist/mnist_summary_2layers.json' : summaryFile_;
 	var snapshotFile = (snapshotFile_ === undefined) ? true : snapshotFile_;
 	var viewTopSamples = (viewTopSamples_ === undefined) ? false : viewTopSamples_;
 	var testAll = (testAll_ === undefined) ? true : testAll_;
 	var numTrain = (numTrain_ === undefined) ? 40000 : numTrain_;
 	var numTest = (numTest_ === undefined) ? 10000 : numTest_;
+	var numEpochs = 10;
 
 	var mcw = 45;
 	var mch = 36;
 	var samples_grid_margin = 2;
 	var sample_scale = 1.0;
 	var selected = {a:2, p:2};
+	var mouseListener = false;
 
 	// variables
 	var data, net, classes, nc, dim;
@@ -53,9 +52,14 @@ function demo(parent, width, height, datasetName_, summaryFile_, snapshotFile_ ,
 		nc = classes.length;
 		dim = data.get_dim();
 		net = new convnet(data);
-		net.add_layer({type:'fc', num_neurons:15, activation:'sigmoid'});
+		// net.add_layer({type:'fc', num_neurons:15, activation:'sigmoid'});
+		net.add_layer({type:'conv', sx:5, filters:8, stride:1, pad:2, activation:'relu'});
+		net.add_layer({type:'pool', sx:2, stride:2});
+		net.add_layer({type:'conv', sx:5, filters:16, stride:1, pad:2, activation:'relu'});
+		net.add_layer({type:'pool', sx:3, stride:3});
 		net.add_layer({type:'softmax', num_classes:nc});
-		net.setup_trainer({method:'adadelta', learning_rate:0.01, batch_size:8, l2_decay:0.0001});
+		// net.setup_trainer({method:'adadelta', learning_rate:0.01, batch_size:8, l2_decay:0.0001});
+		net.setup_trainer({method:'adadelta', batch_size:20, l2_decay:0.001});
 		callback();
 	};
 
@@ -275,21 +279,24 @@ function demo(parent, width, height, datasetName_, summaryFile_, snapshotFile_ ,
 	};
 
 	function update_canvas() {
+		if (!mouseListener) {
+			canvas.addEventListener("mousemove", mouseMoved, false);
+			mouseListener = true;
+		}
 		toggleView(viewTopSamples);
 		ctx.fillStyle = 'rgba(255,255,255,1.0)';
 		ctx.fillRect(0, 0, canvas.width, canvas.height);
-		draw_confusion_samples(100 + nc*mcw + 100, 24, canvas.height-40, selected.p, selected.a, 2);
+		//draw_confusion_samples(100 + nc*mcw + 100, 24, canvas.height-40, selected.p, selected.a, 2);
 		if (viewTopSamples) {
 			draw_confusion_matrix_samples(mx, my, sample_scale);
 		} else {
 			draw_confusion_matrix(mx, my, {x:mcw, y:mch}, 16);
 		}
-		//draw_confusion_samples(100 + nc*mcw + 100, 24, canvas.height-40, selected.p, selected.a, 2);
+		draw_confusion_samples(100 + nc*mcw + 100, 24, canvas.height-40, selected.p, selected.a, 2);
 	};
 
 	function test_all() {
-		console.log("test "+numTest)
-		net.test(numTest, update_canvas);
+		net.test(numTrain, numTest, update_canvas);
 	};
 
 	function test_individually() {
@@ -327,7 +334,7 @@ function demo(parent, width, height, datasetName_, summaryFile_, snapshotFile_ ,
 
 	add_control_panel_menu(["MNIST ordinary","MNIST convnet","CIFAR ordinary","CIFAR convnet"], function() {
 		if 		(this.value == "MNIST ordinary") {loadFromSummary('MNIST', '/demos/datasets/mnist/mnist_summary_2layers.json', update_canvas);}
-		else if (this.value == "MNIST convnet") {loadFromSummary('MNIST', '/demos/datasets/mnist/mnist_summary.json', update_canvas);}
+		else if (this.value == "MNIST convnet") {loadFromSummary('MNIST', '/demos/datasets/mnist/mnist_summary_convnet.json', update_canvas);}
 		else if (this.value == "CIFAR ordinary") {loadFromSummary('CIFAR', '/demos/datasets/cifar/cifar10_summary_2layers.json', update_canvas);}
 		else if (this.value == "CIFAR convnet") {loadFromSummary('CIFAR', '/demos/datasets/cifar/cifar10_summary_convnet.json', update_canvas);}
 	});
@@ -341,6 +348,7 @@ function demo(parent, width, height, datasetName_, summaryFile_, snapshotFile_ ,
 
 	// mode 1: load everything from summary file
 	if (summaryFile !== undefined) {
+		console.log("load ",summaryFile)
 		loadFromSummary(datasetName, summaryFile, update_canvas);
 	}
 	// mode 2: load pretrained model and test samples on client
@@ -351,13 +359,11 @@ function demo(parent, width, height, datasetName_, summaryFile_, snapshotFile_ ,
 	else {
 		createModel(datasetName, function() {
 			if (testAll) {
-				net.train(numTrain, test_all);
+				net.train(numTrain, numTest, numEpochs, test_all);
 			} else {
-				net.train(numTrain, test_individually);
+				net.train(numTrain, numTest, numEpochs, test_individually);
 			}
 		});		
-	};	
-
-	canvas.addEventListener("mousemove", mouseMoved, false);
+	};
 };
 
