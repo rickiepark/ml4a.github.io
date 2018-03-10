@@ -43,13 +43,13 @@ todo/more sections?
 
 12,000 차원인 모래사장이 3차원인 모래사장보다 4,000배 정도만 크다고 생각할 수 있습니다. 그래서 최적의 가중치를 찾는데 걸리는 시간이 _단지_ 4,000 배만 더 들어야 합니다. 하지만 실제로 이 비율은 이상하리만치 커집니다. 그 이유에 대해서 다음 절에서 살펴 보겠습니다.
 
-## n-dimensional space is a lonely place
+## n-차원 공간은 한산합니다
 
-If our strategy is brute force random search, we may ask how many guesses will we have to take before we obtain a reasonably good set of weights. Intuitively, we should expect that we need to take enough guesses to sample the whole space of possible guesses densely; with no prior knowledge, the correct weights could be hiding anywhere, so it makes sense to try to sample the space as much as possible.
+무식하게 랜덤한 탐색을 하는 것이 전략이라면 얼마나 많은 횟수를 추측해봐야 어느정도 좋은 가중치를 얻을 수 있을까요? 직관적으로 생각해보면, 전체 가능한 추측 공간을 조밀하게 샘플링할만큼 충분한 횟수가 필요합니다. 사전지식이 없다면 어딘가 숨어있는 최적의 가중치를 위해 가능한 많이 공간을 샘플링하는 것이 좋습니다.
 
-To illustrate this, let's consider two very small 1-layer neural networks, the first one with 2 neurons, and the second one with 3 neurons. For the sake of simplicity, we will ignore the bias for the moment.
+이를 그림으로 표현하기 위해 아주 작은 1층 신경망 두 개를 생각해 보겠습니다. 첫 번째 신경망은 2개의 뉴런을 가지고 두 번쨰 신경망은 3개의 뉴런을 가집니다. 간단하게 하기 위해 지금은 편향은 무시하겠습니다.
 
-{% include figure_multi.md path1="/images/figures/small_nets.png" caption1="Two small networks with two and three weight connections, respectively (ignoring bias terms for a moment)." %}
+{% include figure_multi.md path1="/images/figures/small_nets.png" caption1="각기 두 개와 세 개의 가중치를 갖는 두 개의 작은 네트워크(잠시 편향은 무시합니다)." %}
 
 In the first network, there are 2 weights to find. How many guesses should we take to be confident that one of them will lead to a good fit? One way to approach this question is to imagine the 2-dimensional space of possible weight combinations and exhaustively search through every combination to some level of granularity. Perhaps we can take each axis and divide it into 10 segments. Then our guesses would be every combination of the two; 100 in all. Not so bad; sampling at such density covers most of the space pretty well. If we divide the axes into 100 segments instead of 10, then we have to make 100*100=10,000 guesses, and cover the space very densely. 10,000 guesses is still pretty small; any computer will get through that in less than a second. 
 
