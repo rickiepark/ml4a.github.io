@@ -51,9 +51,9 @@ todo/more sections?
 
 {% include figure_multi.md path1="/images/figures/small_nets.png" caption1="각기 두 개와 세 개의 가중치를 갖는 두 개의 작은 네트워크(잠시 편향은 무시합니다)." %}
 
-In the first network, there are 2 weights to find. How many guesses should we take to be confident that one of them will lead to a good fit? One way to approach this question is to imagine the 2-dimensional space of possible weight combinations and exhaustively search through every combination to some level of granularity. Perhaps we can take each axis and divide it into 10 segments. Then our guesses would be every combination of the two; 100 in all. Not so bad; sampling at such density covers most of the space pretty well. If we divide the axes into 100 segments instead of 10, then we have to make 100*100=10,000 guesses, and cover the space very densely. 10,000 guesses is still pretty small; any computer will get through that in less than a second. 
+첫 번째 네트워크에는 두 개의 가중치를 찾아야 합니다. 하나의 가중치가 잘 들어 맞는다는 확신을 얻기 위해서는 얼마나 많은 예측을 해봐야 할까요? 이 질문에 대한 답을 얻는 한가지 방법은 가능한 가중치 조합으로 이루어진 2차원 공간을 가정하고 일정 수준으로 자세히 모든 조합을 철저히 탐색하는 것입니다. 예를 들어, 각 축을 10개의 세그먼트로 나눌 수 있습니다. 그런 다음 두 가중치의 모든 조합을 시도해 봅니다. 모두 100개가 됩니다. 나쁘지 않네요. 이 정도의 샘플링은 대부분의 공간을 잘 커버할 것입니다. 만약 축을 10개가 아니라 100개의 세그먼트로 나눈다면, 100 * 100 = 10,000개의 예측을 해야 합니다. 그러면 이 공간을 아주 조밀하게 커버하게 될 것입니다. 10,000번의 시도는 상당히 작은 값이라 보통 컴퓨터로 1초도 걸리지 않을 것입니다.
 
-How about the second network? Here we have three weights instead of two, and therefore a 3-dimensional space to search through. If we want to sample this space to the same level of granularity that we sampled our 2d network, we again divide each axis into 10 segments. Now we have 10 * 10 * 10 = 1,000 guesses to make. Both the 2d and 3d scenarios are depicted in the below figure. 
+두 번째 네트워크는 어떨까요? 여기에는 두 개가 아니라 세 개의 가중치가 있으므로 탐색할 공간이 3차원입니다. 2차원 공간에서 했던 것과 동일한 수준의 정밀도로 이 공간을 탐색하려면, 여기서도 각 축을 10개의 세그먼트로 나눕니다. 이제 10 * 10 * 10 = 1,000번의 추측을 해야 합니다. 2차원과 3차원의 시나리오를 다음 그림에 나타내었습니다.
 
 {% include figure_multi.md path1="/images/figures/sampling.png" caption1="Left: a 2d square sampled to 10% density requires 10² = 100 points. Right: a 3d cube sampled to 10% density requires 10³ = 1000 points." %}
 
