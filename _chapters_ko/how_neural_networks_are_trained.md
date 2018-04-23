@@ -55,9 +55,10 @@ todo/more sections?
 
 두 번째 네트워크는 어떨까요? 여기에는 두 개가 아니라 세 개의 가중치가 있으므로 탐색할 공간이 3차원입니다. 2차원 공간에서 했던 것과 동일한 수준의 정밀도로 이 공간을 탐색하려면, 여기서도 각 축을 10개의 세그먼트로 나눕니다. 이제 10 * 10 * 10 = 1,000번의 추측을 해야 합니다. 2차원과 3차원의 시나리오를 다음 그림에 나타내었습니다.
 
-{% include figure_multi.md path1="/images/figures/sampling.png" caption1="Left: a 2d square sampled to 10% density requires 10² = 100 points. Right: a 3d cube sampled to 10% density requires 10³ = 1000 points." %}
+{% include figure_multi.md path1="/images/figures/sampling.png" caption1="왼쪽: 2d 사각형에서 10% 밀도로 샘플링하려면 10² = 100개의 포인트가 필요합니다. 오른쪽: 3d 큐브에서 10% 밀도로 샘플링하려면 10³ = 1000개의 포인트가 필요합니다." %}
 
-1,000 guesses is a piece of cake, we might say. At a granularity of 100 segments, we would have $$100 * 100 * 100 = 1000000$$ guesses. 1,000,000 guesses is still no problem, but now perhaps we are getting nervous. What happens when we scale up this approach to more realistic sized networks? We can see that the number of possible guesses blows up exponentially with respect to the number of weights we have. In general, if we want to sample to a granularity of 10 segments per axis, then we need $$10^N$$ samples for an $$N$$-dimensional dataset. 
+1,000번을 추측해 보는 것은 어렵지 않습니다. 100개의 세그먼트로 나누면 $$100 * 100 * 100 = 1000000$$을 시도해 봐야 합니다. 1,000,000번도 문제는 아니지만 이제 신경쓰이기 시작할 것입니다. 현실적인 크기의 네트워크로 이 방식을 확장하면 어떤 일이 일어날까요? 시도해 봐야할 숫자는 가중치의 개수에 비례해 기하급수적으로 늘어날 것입니다. 한 축당 10개의 세그먼트 수준으로 샘플링한다면 $$N$$-차원의 데이터셋에서는 $$10^N$$개의 샘플이 필요합니다.
+
 
 So what happens when we try to use this approach to train our network for classifying MNIST digits from the [first chapter](/ml4a/neural_networks/)? Recall that network has 784 input neurons, 15 neurons in 1 hidden layer, and 10 neurons in the output layer. Thus, there are $$784*15 + 15*10 = 11910$$ weights. Add 25 biases to the mix, and we have to simultaneously guess through 11,935 dimensions of parameters. That means we'd have to take $$10^{11935}$$ guesses... That's a 1 with almost 12,000 zeros after it! That is an unimaginably large number; to put it in perspective, there are only $$10^{80}$$ atoms in the entire universe. No supercomputer can ever hope to perform that many calculations. In fact, if we took all of the computers existing in the world today, and left them running until the Earth crashed into the sun, we still wouldn't even come close! And just consider that modern deep neural networks frequently have tens or hundreds of millions of weights.
 
