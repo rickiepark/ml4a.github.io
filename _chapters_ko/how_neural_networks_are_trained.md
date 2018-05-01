@@ -20,6 +20,7 @@ todo/more sections?
 
 -->
 
+[日本語](/ml4a/jp/how_neural_networks_are_trained/)
 
 어떤 산악인이 산 정상에 있는데 해가 저물었다고 생각해 보세요. 산 아래에 있는 베이스캠프로 가야하지만 캄캄한 어둠속이고 자그마한 플래시밖에 없어서 몇 발치 앞만 바라볼 수 있습니다. 어떻게 내려갈 수 있을까요? 한 가지 방법은 가장 가파르게 경사진 방향을 찾고, 그 방향으로 한 걸음 나아가는 것입니다. 이런 과정을 많이 반복하면 점차 비탈길 아래로 내려가게 될 것입니다. 이따금 골짜기나 계곡에 갖힐 수도 있지만 빠져나오기 위해 지금까지 내려오던 방향의 모멘텀을 따를 수 있습니다. 위험을 차치하면 이 전략이 결국 산 아래로 인도해 줄 것입니다.
 
@@ -59,8 +60,7 @@ todo/more sections?
 
 1,000번을 추측해 보는 것은 어렵지 않습니다. 100개의 세그먼트로 나누면 $$100 * 100 * 100 = 1000000$$을 시도해 봐야 합니다. 1,000,000번도 문제는 아니지만 이제 신경쓰이기 시작할 것입니다. 현실적인 크기의 네트워크로 이 방식을 확장하면 어떤 일이 일어날까요? 시도해 봐야할 숫자는 가중치의 개수에 비례해 기하급수적으로 늘어날 것입니다. 한 축당 10개의 세그먼트 수준으로 샘플링한다면 $$N$$-차원의 데이터셋에서는 $$10^N$$개의 샘플이 필요합니다.
 
-
-So what happens when we try to use this approach to train our network for classifying MNIST digits from the [first chapter](/ml4a/neural_networks/)? Recall that network has 784 input neurons, 15 neurons in 1 hidden layer, and 10 neurons in the output layer. Thus, there are $$784*15 + 15*10 = 11910$$ weights. Add 25 biases to the mix, and we have to simultaneously guess through 11,935 dimensions of parameters. That means we'd have to take $$10^{11935}$$ guesses... That's a 1 with almost 12,000 zeros after it! That is an unimaginably large number; to put it in perspective, there are only $$10^{80}$$ atoms in the entire universe. No supercomputer can ever hope to perform that many calculations. In fact, if we took all of the computers existing in the world today, and left them running until the Earth crashed into the sun, we still wouldn't even come close! And just consider that modern deep neural networks frequently have tens or hundreds of millions of weights.
+[첫 번째 장](/ml4a/neural_networks/)의 MNIST 숫자 분류를 위한 네트워크를 훈련시키는데 이 방식을 사용하면 어떤 일이 일어날까요? 이 네트워크는 783개의 입력 뉴런, 1개의 은닉층에 15개의 뉴런 그리고 출력층에 10개의 뉴런을 가지고 있습니다. 그러므로 $$784*15 + 15*10 = 11910$$개의 가중치가 있습니다. 25개의 편향을 더하면 11,935개의 파라미터 차원에 대해 동시에 추측을 해야합니다. 이 말은 $$10^{11935}$$번을 시도해야 합니다. 거의 12,000개의 0이 있는 숫자입니다! 상상할 수 없을 정도로 큰 숫자입니다. 어느 정도인지 감을 잡기 위해 예를 들면 우주에 있는 모든 원자의 개수가 $$10^{80}$$개 입니다. 어떤 수퍼컴퓨터도 이렇게 많은 계산을 수행할 수 없습니다. 사실 지구상에 있는 모든 컴퓨터를 사용해 지구가 멸망할 때까지 돌린다해도 근처에도 다다르지 못할 것입니다! 심지어 최근의 심층 신경망은 수천만 또는 수억 개의 가중치를 가지고 있습니다.
 
 This principle is closely related to what we call in machine learning "[the curse of dimensionality](https://en.wikipedia.org/wiki/Curse_of_dimensionality)." Each dimension we add into a search space exponentially blows up the number of samples we require to get good generalization for any model learned from it. The curse of dimensionality is more often applied to datasets; simply put, the more columns or variables a dataset is represented with, the exponentially more samples in that dataset we need to understand it. In our case, we are thinking about the weights rather than the inputs, but the principle remains the same; [high-dimensional space is enormous](https://www.inf.fu-berlin.de/inst/ag-ki/rojas_home/documents/tutorials/dimensionality.pdf)!
 
