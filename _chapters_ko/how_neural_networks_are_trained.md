@@ -62,9 +62,9 @@ todo/more sections?
 
 [첫 번째 장](/ml4a/neural_networks/)의 MNIST 숫자 분류를 위한 네트워크를 훈련시키는데 이 방식을 사용하면 어떤 일이 일어날까요? 이 네트워크는 783개의 입력 뉴런, 1개의 은닉층에 15개의 뉴런 그리고 출력층에 10개의 뉴런을 가지고 있습니다. 그러므로 $$784*15 + 15*10 = 11910$$개의 가중치가 있습니다. 25개의 편향을 더하면 11,935개의 파라미터 차원에 대해 동시에 추측을 해야합니다. 이 말은 $$10^{11935}$$번을 시도해야 합니다. 거의 12,000개의 0이 있는 숫자입니다! 상상할 수 없을 정도로 큰 숫자입니다. 어느 정도인지 감을 잡기 위해 예를 들면 우주에 있는 모든 원자의 개수가 $$10^{80}$$개 입니다. 어떤 수퍼컴퓨터도 이렇게 많은 계산을 수행할 수 없습니다. 사실 지구상에 있는 모든 컴퓨터를 사용해 지구가 멸망할 때까지 돌린다해도 근처에도 다다르지 못할 것입니다! 심지어 최근의 심층 신경망은 수천만 또는 수억 개의 가중치를 가지고 있습니다.
 
-This principle is closely related to what we call in machine learning "[the curse of dimensionality](https://en.wikipedia.org/wiki/Curse_of_dimensionality)." Each dimension we add into a search space exponentially blows up the number of samples we require to get good generalization for any model learned from it. The curse of dimensionality is more often applied to datasets; simply put, the more columns or variables a dataset is represented with, the exponentially more samples in that dataset we need to understand it. In our case, we are thinking about the weights rather than the inputs, but the principle remains the same; [high-dimensional space is enormous](https://www.inf.fu-berlin.de/inst/ag-ki/rojas_home/documents/tutorials/dimensionality.pdf)!
+이 개념은 머신러닝에서 "[차원의 저주](https://en.wikipedia.org/wiki/Curse_of_dimensionality)"라고 부르는 것과 밀접하게 관련되어 있습니다. 탐색 공간에 추가한 차원은 일반화가 좋은 모델을 학습시키기 위해 필요한 샘플의 수를 기하급수적으로 증가시킵니다. 차원의 저주는 데이터셋에 더 많이 적용됩니다. 간단히 말하면 데이터셋을 표현하는 열 또는 변수가 많을수록 데이터셋을 이해하기 위해 필요한 샘플의 수가 급격히 증가합니다. 여기에서는 입력보다는 가중치에 대해 생각하지만 원리는 동일합니다. [고차원 공간은 엄청납니다](https://www.inf.fu-berlin.de/inst/ag-ki/rojas_home/documents/tutorials/dimensionality.pdf)!
 
-Obviously there needs to be some more elegant solution to this problem than random guesses. In order to build up our understanding of an efficient computational method for solving such a problem, let's again forget about neural networks for a minute, and start instead with a simpler problem and scale up gradually until we've reinvented gradient descent.
+당연히 무작위로 추측하는 것보다 이 문제를 더 우아하게 해결해야 합니다. 이런 문제를 풀기위한 효율적인 계산 방법을 이해하기 위해 잠시 신경망에 대해 잊도록 하겠습니다. 대신 좀 더 간단한 문제에서 시작해서 점차 확장하여 경사 하강법을 다시 만들어 보겠습니다.
 
 # Linear regression
 
